@@ -3,15 +3,22 @@ public class Jegy {
     
     String jegyTipus;
     double jegyAr;
+    //double jegyArSzorzo;
 
-    public double JegyArSzorzo(){
+    public Jegy(String jegyTipus, double jegyAr/*, double jegyArSzorzo*/) {
+        this.jegyTipus = jegyTipus;
+        this.jegyAr = jegyAr;
+        //this.jegyArSzorzo = jegyArSzorzo;
+    }
+
+    /*public double JegyArSzorzo(){
         double szorzo = 1.00;
         if (getJegyTipus() == "Felnőtt") {
-            System.out.println("Felnőtt");
+            //System.out.println("Felnőtt");
             szorzo = 1.00;
         }
         if (getJegyTipus() == "Diák") {
-            System.out.println("Diak");
+            //System.out.println("Diak");
             szorzo = 0.5;
         }
         else
@@ -21,22 +28,13 @@ public class Jegy {
         }
         return szorzo;
     }
-    
+    */
     public String FizetendoJegyar(){
-        jegyAr = getJegyAr()*JegyArSzorzo();
+        jegyAr = getJegyAr()/**JegyArSzorzo()*/;
         String FizetendoJegyar = jegyAr + " Ft-ot kell fizetni a(z) " + getJegyTipus() + " jegyért";
         return FizetendoJegyar;
     }
     
-    
-    
-    
-    public Jegy(String jegyTipus, int jegyAr) {
-        this.jegyTipus = jegyTipus;
-        this.jegyAr = jegyAr;
-        
-    }
-
     public String getJegyTipus() {
         return jegyTipus;
     }
