@@ -11,24 +11,6 @@ public class Jegy {
         //this.jegyArSzorzo = jegyArSzorzo;
     }
 
-    /*public double JegyArSzorzo(){
-        double szorzo = 1.00;
-        if (getJegyTipus() == "Felnőtt") {
-            //System.out.println("Felnőtt");
-            szorzo = 1.00;
-        }
-        if (getJegyTipus() == "Diák") {
-            //System.out.println("Diak");
-            szorzo = 0.5;
-        }
-        else
-        {
-            System.out.println("Érvénytelen jegytípus! Teljes áru jeggyel számolok");
-            setJegyTipus("ISMERETLEN");
-        }
-        return szorzo;
-    }
-    */
     public String FizetendoJegyar(){
         jegyAr = getJegyAr()/**JegyArSzorzo()*/;
         String FizetendoJegyar = jegyAr + " Ft-ot kell fizetni a(z) " + getJegyTipus() + " jegyért";
@@ -52,4 +34,22 @@ public class Jegy {
     }
     
     
+    /*public double JegyArSzorzo(){
+        double szorzo = 1.00;
+        if (getJegyTipus() == "Felnőtt") {
+            //System.out.println("Felnőtt");
+            szorzo = 1.00;
+        }
+        if (getJegyTipus() == "Diák") {
+            //System.out.println("Diak");
+            szorzo = 0.5;
+        }
+        else
+        {
+            System.out.println("Érvénytelen jegytípus! Teljes áru jeggyel számolok");
+            setJegyTipus("ISMERETLEN");
+        }
+        return szorzo;
+    }
+    */
 }

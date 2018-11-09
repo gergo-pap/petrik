@@ -8,15 +8,19 @@ public class KozlekedesiEszkoz {
     int jegyar;
     ArrayList<Utas> utasok = new ArrayList<>();
     ArrayList<Ellenor> ellenorok = new ArrayList<>();
-    Jegy diak = new Jegy("Diák", 3000/*, 0.5*/);
-    Jegy felnott = new Jegy("Felnőtt", 3000/*, 1.0*/);
-    Jegy ismeretlen = new Jegy("xyz", 3000/*, 1.0*/);
-            
-
-    public KozlekedesiEszkoz(String tipus, int kapacitas, int jegyar) {
+    boolean isUtasVanJegye;        
+    int utasEgyenleg;
+    
+    public KozlekedesiEszkoz(String tipus, Sofor sofor) {
         this.tipus = tipus;
         this.kapacitas = kapacitas;
-        this.jegyar = jegyar;
+        if (getTipus() == "Busz") {
+            setKapacitas(50);
+        }
+        else if (getTipus() == "Vonat"){
+            setKapacitas(200);
+        }
+        System.out.println(getTipus()+ " " + getKapacitas() + " kapacitással létrejött");
     }
 
     public String Kapacitas(){
@@ -24,24 +28,36 @@ public class KozlekedesiEszkoz {
         return kapacitas;
     }
     
-    public String jegyEllenorzes(boolean isUtasVanJegye, int utasEgyenleg){
+    public String jegyEllenorzes(){
         String kimenet = "";
+        if(getTipus()!= "Vonat"){
         for (int i = 0; i < utasok.size(); i++) {
+            Utas utas = utasok.get(i);
             isUtasVanJegye = utasok.get(i).isUtasVanJegye();
             utasEgyenleg = utasok.get(i).getUtasEgyenleg();
 
             if (isUtasVanJegye == false) {
+                System.out.println("Az utasnak ( "+ utas.getUtasNev()+ ") nem volt jegye, ezért meg lett büntetve és le lett szállítva a " + getTipus() + "-ról" );
+                
                 utasEgyenleg -= 16000;
+                System.out.println("A(z) " + utasok.get(i).utasNev + " utasnak az új egyenlege: " + utasEgyenleg);
+                utasok.remove(utas);
+                kapacitas++;
+                System.out.println("A " + getTipus()+ " új kapacitása: " + getKapacitas());
+                
             }
             if (isUtasVanJegye == true) {
                 isUtasVanJegye = false;
             }
-            isUtasVanJegye = utasok.get(i).isUtasVanJegye();
-            //utasEgyenleg = utasok.get(i).getUtasEgyenleg();
-            System.out.println("A(z) " + utasok.get(i).utasNev + " utasnak az új egyenlege: " + utasEgyenleg);
+            //isUtasVanJegye = utasok.get(i).isUtasVanJegye();
+            utasEgyenleg = utasok.get(i).getUtasEgyenleg();
+            //System.out.println("A(z) " + utasok.get(i).utasNev + " utasnak az új egyenlege: " + utasEgyenleg);
+            utasok.get(i).setUtasEgyenleg(utasEgyenleg);
             
         }
-
+        }
+        else {};
+       
         return kimenet;
     }
     
@@ -59,20 +75,28 @@ public class KozlekedesiEszkoz {
             System.out.println("A " + getTipus()+ " új kapacitása: " + getKapacitas());
             utasok.add(utas);
             if (kozlekedeiEszkoz == "vonat" || kozlekedeiEszkoz == "Vonat") {
-                if (jegy == "Diák") {
+                if (jegy == "Diák" && utas.getUtasEgyenleg()> 0) {
                     
                     jegyar = 500;
+                    System.out.println("Sikeres diákjegy jegyvásárlás");
                     utas.setUtasEgyenleg(utas.getUtasEgyenleg()- jegyar);
-            }
-            else if (jegy == "Felnőtt"){
-                jegyar = 1000;
-                utas.setUtasEgyenleg(utas.getUtasEgyenleg()- jegyar);
-            }
-            else {
-                jegyar = 1000;
-                System.out.println("Ismeretlen jegytípus miatt teljes érétű jegyárral számolva");
-                utas.setUtasEgyenleg(utas.getUtasEgyenleg()- jegyar);
-            }
+                    System.out.println("A(z) " + utas.getUtasNev()+  " utasnak az új egyenlege: " + utas.getUtasEgyenleg());
+                }
+                else if (jegy == "Felnőtt" && utas.getUtasEgyenleg()> 0){
+                    jegyar = 1000;
+                    System.out.println("Sikeres felnőttjegy jegyvásárlás");
+                    utas.setUtasEgyenleg(utas.getUtasEgyenleg()- jegyar);
+                    System.out.println("A(z) " + utas.getUtasNev() + " utasnak az új egyenlege: " + utas.getUtasEgyenleg());
+                }
+                else {
+                    jegyar = 1000;
+                    System.out.println("Ismeretlen jegytípus miatt teljes érétű jegyárral számolva");
+                    utas.setUtasEgyenleg(utas.getUtasEgyenleg()- jegyar);
+                    System.out.println("A(z) " + utas.getUtasNev() + " utasnak az új egyenlege: " + utas.getUtasEgyenleg());
+                }
+                if(utas.getUtasEgyenleg()<=0){
+                    System.out.println("Az utasnak ( " + utas.getUtasNev() + "+)nics elég pénze jegyet vásárolni ezért nem tudott felszállni a " + getTipus()+ "-ra");
+                }
             }
 
 
@@ -87,11 +111,14 @@ public class KozlekedesiEszkoz {
         else if (getKapacitas()>=1) {
             kapacitas--;
             setKapacitas(kapacitas);
+            System.out.println(ellenor.ellenorNev + "(ellenőr)" + " felszáll a "  + getTipus() + "-ra");
             System.out.println("A " + getTipus()+ " új kapacitása: " + getKapacitas());
             ellenorok.add(ellenor);
         } 
-
+        jegyEllenorzes();
     }
+    
+    
 
     public String getTipus() {
         return tipus;
