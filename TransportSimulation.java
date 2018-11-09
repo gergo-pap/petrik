@@ -5,29 +5,30 @@ public class TransportSimulation {
     public static void main(String[] args) {
         
 
-        
-        Utas Ancsi = new Utas("Ancsi", 20000, true);
-        Utas Bela = new Utas("Béla", 20000, true);
-        Utas Elod = new Utas("Előd", 20000, false);
-        Ellenor Joska = new Ellenor("Jóska", 30000);
-        Ellenor Aladar = new Ellenor("Aladár", 15000);
+        KozlekedesiEszkoz busz = new KozlekedesiEszkoz("busz", 5, 450);
+        Utas Ancsi = new Utas("Ancsi", 3000, false);
+        Utas Béla = new Utas("Béla", 2000, false);
+        Utas Előd = new Utas("Előd", 500, true);
+        Ellenor Jóska = new Ellenor("Jóska", 30000);
         Sofor Jean = new Sofor("Jean", 10000);
-        KozlekedesiEszkoz busz = new KozlekedesiEszkoz("Busz", Jean);
-        //Jegy diak = new Jegy("Diák", 3000/*, 0.0*/);
-        //Jegy felnott = new Jegy("Felnőtt", 3000/*, 0.0*/);
-        //System.out.println(diak.FizetendoJegyar());
-        //System.out.println(felnott.FizetendoJegyar());
-        //System.out.println(Ancsi.UtasVanJegye());
-        busz.FelSzallUtas(Ancsi, "Diák");
-        busz.FelSzallUtas(Bela, "Felnőtt");
-        busz.FelSzallUtas(Elod, "Felnőtt");
-        busz.FelSzallEllenor(Joska);
+        Jegy diak = new Jegy("Diák", 3000);
+        Jegy felnott = new Jegy("DASD", 3000);
+        System.out.println(diak.FizetendoJegyar());
+        System.out.println(felnott.FizetendoJegyar());
+        System.out.println(Ancsi.UtasVanJegye());
+        System.out.println(busz.Kapacitas());
+        System.out.println("Ancsi felszáll a buszra");
+        busz.FelSzallUtas(Ancsi);
+        System.out.println("Béla felszáll a buszra");
+        busz.FelSzallUtas(Béla);
+
+        System.out.println("Jóska(ellenőr) felszáll a buszra");
+        busz.FelSzallEllenor(Jóska);
         System.out.println(busz.utasok);//kiiratás nem megfelelő
         System.out.println(busz.ellenorok);
-        KozlekedesiEszkoz Vonat = new KozlekedesiEszkoz("Vonat", Jean);
-        Vonat.FelSzallUtas(Ancsi, "Diák");
-        Vonat.FelSzallUtas(Bela, "Felnőtt");
-        Vonat.FelSzallUtas(Elod, "Ismerssadetlen");
-        Vonat.FelSzallEllenor(Aladar);
+        //busz.jegyEllenorzes(Béla.isUtasVanJegye(), Béla.setUtasVanJegye(true), Béla.setUtasEgyenleg(utasEgyenleg));
+        busz.FelSzallUtas(Előd);
+        System.out.println("Ancsi egyenlege: " + Ancsi.getUtasEgyenleg());
+        System.out.println(busz.jegyEllenorzes(true, 9999));
     }
 }

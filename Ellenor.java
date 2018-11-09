@@ -7,14 +7,14 @@ public class Ellenor {
         this.ellenorNev = ellenorNev;
         this.ellenorEgyenleg = ellenorEgyenleg;
     }
-    
+
     public String getEllenorNev() {
         return ellenorNev;
     }
-    
+
     public int getEllenorEgyenleg() {
         return ellenorEgyenleg;
-}
+    }
 
     public void setEllenorNev(String ellenorNev) {
         this.ellenorNev = ellenorNev;
